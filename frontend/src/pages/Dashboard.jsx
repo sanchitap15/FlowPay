@@ -1,183 +1,331 @@
 import {
+  ArrowUpRight,
   CloudSun,
-  Wallet,
-  PiggyBank,
   CreditCard,
-  ShieldCheck,
   Plus,
+  ShieldCheck,
+  Sparkles,
+  Wallet,
 } from "lucide-react";
+
+import { motion } from "framer-motion";
+
+const metrics = [
+  {
+    label: "Available",
+    value: "₹4,820",
+    note: "Safe to spend",
+    icon: Wallet,
+  },
+  {
+    label: "Savings Pocket",
+    value: "₹2,640",
+    note: "+₹260 today",
+    icon: Sparkles,
+  },
+  {
+    label: "Flex Credit",
+    value: "₹6,800",
+    note: "₹3,200 repaid",
+    icon: CreditCard,
+  },
+  {
+    label: "Trust Score",
+    value: "72",
+    note: "+4 this month",
+    icon: ShieldCheck,
+  },
+];
 
 function Dashboard() {
   return (
-    <div className="dashboard">
-      <aside className="sidebar">
-        <div className="logo">
-          Flow<span>Pay</span>
+    <main className="dashboard-shell">
+      <header className="dashboard-header">
+        <div>
+          <p className="dashboard-eyebrow">
+            LIVE FINANCIAL STATE
+          </p>
+
+          <h1>
+            Your money,
+            <br />
+            <span>in your rhythm.</span>
+          </h1>
+
+          <p className="dashboard-description">
+            FlowPay reads your earning pattern and adapts how much
+            you can safely spend, save, repay and protect.
+          </p>
         </div>
 
-        <nav>
-          <a className="active">Dashboard</a>
-          <a>Income</a>
-          <a>Savings</a>
-          <a>Flex Credit</a>
-          <a>Trust Score</a>
-        </nav>
+        <motion.button
+          className="add-income-button"
+          whileHover={{
+            y: -2,
+          }}
+          whileTap={{
+            scale: 0.97,
+          }}
+        >
+          <Plus size={18} />
+          Add income
+        </motion.button>
+      </header>
 
-        <div className="sidebar-footer">
-          Finance that moves
-          <br />
-          with your income.
-        </div>
-      </aside>
+      <section className="dashboard-hero-grid">
+        <motion.div
+          className="income-card"
+          initial={{
+            opacity: 0,
+            y: 18,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+            amount: 0.3,
+          }}
+          transition={{
+            duration: 0.5,
+          }}
+        >
+          <div className="income-card-header">
+            <div>
+              <p className="dashboard-eyebrow">
+                TODAY'S FLOW
+              </p>
 
-      <main className="main-content">
-        <header className="topbar">
-          <div>
-            <p className="eyebrow">GOOD MORNING</p>
-            <h1>Your money, in your rhythm.</h1>
+              <h2>₹1,800 received</h2>
+            </div>
+
+            <div className="live-badge">
+              <span />
+              LIVE
+            </div>
           </div>
 
-          <button className="add-income-btn">
-            <Plus size={18} />
-            Add Income
-          </button>
-        </header>
+          <div className="income-flow">
+            <div className="flow-side">
+              <span>Income</span>
+              <strong>₹1,800</strong>
+            </div>
 
-        <section className="weather-card">
-          <div className="weather-icon">
-            <CloudSun size={38} />
+            <div className="flow-line">
+              <motion.div
+                className="flow-line-fill"
+                initial={{
+                  width: 0,
+                }}
+                whileInView={{
+                  width: "100%",
+                }}
+                viewport={{
+                  once: true,
+                }}
+                transition={{
+                  duration: 1.15,
+                  ease: "easeInOut",
+                }}
+              />
+
+              <motion.div
+                className="flow-line-dot"
+                initial={{
+                  left: "0%",
+                }}
+                whileInView={{
+                  left: "96%",
+                }}
+                viewport={{
+                  once: true,
+                }}
+                transition={{
+                  duration: 1.15,
+                  ease: "easeInOut",
+                }}
+              />
+            </div>
+
+            <div className="flow-side flow-side-right">
+              <span>Adapted safely</span>
+              <strong>Stable</strong>
+            </div>
           </div>
 
-          <div>
-            <p className="eyebrow">INCOME WEATHER</p>
+          <div className="allocation-grid">
+            <AllocationCard
+              label="Available"
+              value="₹1,380"
+              percent="77%"
+              type="available"
+            />
+
+            <AllocationCard
+              label="Save"
+              value="₹260"
+              percent="14%"
+              type="save"
+            />
+
+            <AllocationCard
+              label="Repay"
+              value="₹160"
+              percent="9%"
+              type="repay"
+            />
+
+            <AllocationCard
+              label="Protect"
+              value="Active"
+              percent="Buffer"
+              type="protect"
+            />
+          </div>
+        </motion.div>
+
+        <motion.div
+          className="weather-card"
+          initial={{
+            opacity: 0,
+            y: 18,
+          }}
+          whileInView={{
+            opacity: 1,
+            y: 0,
+          }}
+          viewport={{
+            once: true,
+            amount: 0.3,
+          }}
+          transition={{
+            duration: 0.5,
+            delay: 0.08,
+          }}
+        >
+          <div className="weather-icon-wrap">
+            <motion.div
+              className="weather-icon"
+              animate={{
+                y: [0, -5, 0],
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              <CloudSun size={35} />
+            </motion.div>
+
+            <div className="weather-ring ring-one" />
+            <div className="weather-ring ring-two" />
+          </div>
+
+          <p className="dashboard-eyebrow">
+            INCOME WEATHER
+          </p>
+
+          <div className="weather-title">
             <h2>Stable</h2>
-            <p>
-              Your recent earnings are within your normal range.
-              Current allocations can continue safely.
-            </p>
+            <span />
           </div>
 
-          <div className="forecast">
-            <span>7-day expected income</span>
-            <strong>₹5,400 – ₹6,300</strong>
+          <p className="weather-copy">
+            Your recent earnings are tracking within your expected
+            range.
+          </p>
+
+          <div className="weather-forecast">
+            <span>Next 7 days</span>
+
+            <strong>₹5.4k — ₹6.3k</strong>
+
+            <small>
+              Forecast confidence 86%
+              <ArrowUpRight size={14} />
+            </small>
           </div>
-        </section>
+        </motion.div>
+      </section>
 
-        <section className="stats-grid">
-          <StatCard
-            icon={<Wallet size={22} />}
-            label="Available"
-            value="₹4,820"
-            note="Safe to spend"
-          />
+      <section className="metric-grid">
+        {metrics.map((metric, index) => {
+          const Icon = metric.icon;
 
-          <StatCard
-            icon={<PiggyBank size={22} />}
-            label="Savings Pocket"
-            value="₹2,640"
-            note="+₹260 today"
-          />
-
-          <StatCard
-            icon={<CreditCard size={22} />}
-            label="Flex Credit"
-            value="₹6,800"
-            note="₹3,200 repaid"
-          />
-
-          <StatCard
-            icon={<ShieldCheck size={22} />}
-            label="Trust Score"
-            value="72 / 100"
-            note="+4 this month"
-          />
-        </section>
-
-        <section className="dashboard-grid">
-          <div className="panel">
-            <div className="panel-heading">
-              <div>
-                <p className="eyebrow">TODAY'S FLOW</p>
-                <h3>₹1,800 received</h3>
+          return (
+            <motion.article
+              key={metric.label}
+              className="metric-card"
+              initial={{
+                opacity: 0,
+                y: 18,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              viewport={{
+                once: true,
+                amount: 0.2,
+              }}
+              transition={{
+                delay: index * 0.05,
+              }}
+              whileHover={{
+                y: -5,
+              }}
+            >
+              <div className="metric-icon">
+                <Icon size={19} />
               </div>
 
-              <span className="status-pill">Stable</span>
-            </div>
+              <span className="metric-label">
+                {metric.label}
+              </span>
 
-            <div className="allocation-list">
-              <Allocation label="Available" amount="₹1,380" percent="77%" />
-              <Allocation label="Savings" amount="₹260" percent="14%" />
-              <Allocation label="Repayment" amount="₹160" percent="9%" />
-            </div>
+              <strong className="metric-value">
+                {metric.value}
+              </strong>
 
-            <div className="explanation">
-              <strong>Why this allocation?</strong>
-              <p>
-                Your earnings are currently stable, so FlowPay can continue
-                normal savings and repayment contributions without putting
-                essential liquidity at risk.
-              </p>
-            </div>
-          </div>
+              <span className="metric-note">
+                {metric.note}
+              </span>
 
-          <div className="panel">
-            <p className="eyebrow">FLOW ENGINE</p>
-            <h3>Financial capacity</h3>
-
-            <div className="engine-score">
-              <span>Safe allocation capacity</span>
-              <strong>82%</strong>
-            </div>
-
-            <div className="engine-bar">
-              <div className="engine-fill" />
-            </div>
-
-            <ul className="engine-signals">
-              <li>
-                <span>Income volatility</span>
-                <strong>Low</strong>
-              </li>
-              <li>
-                <span>Emergency buffer</span>
-                <strong>Healthy</strong>
-              </li>
-              <li>
-                <span>Debt pressure</span>
-                <strong>Moderate</strong>
-              </li>
-            </ul>
-          </div>
-        </section>
-      </main>
-    </div>
+              <div className="spark-bars">
+                <i />
+                <i />
+                <i />
+                <i />
+                <i />
+                <i />
+              </div>
+            </motion.article>
+          );
+        })}
+      </section>
+    </main>
   );
 }
 
-function StatCard({ icon, label, value, note }) {
+function AllocationCard({
+  label,
+  value,
+  percent,
+  type,
+}) {
   return (
-    <div className="stat-card">
-      <div className="stat-icon">{icon}</div>
-
-      <div>
-        <p>{label}</p>
-        <h3>{value}</h3>
-        <span>{note}</span>
-      </div>
-    </div>
-  );
-}
-
-function Allocation({ label, amount, percent }) {
-  return (
-    <div className="allocation-row">
-      <div>
-        <strong>{label}</strong>
-        <span>{percent}</span>
-      </div>
-
-      <strong>{amount}</strong>
-    </div>
+    <motion.div
+      className={`allocation-card allocation-${type}`}
+      whileHover={{
+        y: -4,
+      }}
+    >
+      <span>{label}</span>
+      <strong>{value}</strong>
+      <small>{percent}</small>
+    </motion.div>
   );
 }
 
