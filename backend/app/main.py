@@ -34,9 +34,12 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title=settings.APP_NAME, lifespan=lifespan)
 
+# Allow origins from settings or default to all origins for easy development/deployment testing
+allowed_origins = getattr(settings, "allowed_origins_list", ["*"]) or ["*"]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.allowed_origins_list,
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
